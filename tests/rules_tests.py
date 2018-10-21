@@ -24,6 +24,19 @@ class RulesScoreTestCase(TestCase):
         self.assertEqual(rules.score_full_house([1, 1, 1, 2, 2]), 7)
         self.assertEqual(rules.score_full_house([1, 1, 1, 2, 3]), 0)
 
+    def test_small_straight(self):
+        self.assertEqual(rules.score_small_straight([1, 3, 2, 5, 4]), 30)
+        self.assertEqual(rules.score_small_straight([6, 3, 5, 4, 1]), 30)
+        self.assertEqual(rules.score_small_straight([2, 3, 5, 4, 2]), 30)
+        self.assertEqual(rules.score_small_straight([1, 1, 1, 1, 1]), 0)
+        self.assertEqual(rules.score_small_straight([1, 2, 3, 5, 4]), 30)
+
+    def test_large_straight(self):
+        self.assertEqual(rules.score_large_straight([1, 3, 2, 5, 4]), 40)
+        self.assertEqual(rules.score_large_straight([6, 3, 5, 4, 2]), 40)
+        self.assertEqual(rules.score_large_straight([2, 3, 5, 4, 2]), 0)
+        self.assertEqual(rules.score_large_straight([1, 1, 1, 1, 1]), 0)
+
     def test_yahtzee(self):
         self.assertEqual(rules.score_yahtzee([1, 1, 1, 1, 1]), 50)
         self.assertEqual(rules.score_yahtzee([2, 2, 2, 3, 2]), 0)
