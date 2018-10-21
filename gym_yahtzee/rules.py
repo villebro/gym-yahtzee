@@ -20,8 +20,22 @@ def score_three_of_a_kind(dice: Collection[int]) -> int:
         return 0
 
 
+def score_four_of_a_kind(dice: Collection[int]) -> int:
+    for die, count in Counter(dice).most_common(1):
+        if count >= 4:
+            return die * 4
+        return 0
+
+
 def score_full_house(dice: Collection[int]) -> int:
     counter = Counter(dice)
     if len(counter.keys()) == 2 and min(counter.values()) == 2:
         return sum(counter.elements())
     return 0
+
+
+def score_yahtzee(dice: Collection[int]) -> int:
+    for die, count in Counter(dice).most_common(1):
+        if count == 5:
+            return 50
+        return 0
