@@ -7,7 +7,7 @@ class YahtzeeSingleEnv(gym.Env):
     metadata = {'render.modes': ['human']}
 
     def __init__(self):
-        self.action_space = spaces.Discrete(56)
+        self.action_space = spaces.Discrete(44)
         pass
 
     def step(self, action):
