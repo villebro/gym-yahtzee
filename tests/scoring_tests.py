@@ -11,7 +11,7 @@ from gym_yahtzee.scoring import (
 from unittest import TestCase
 
 
-class RulesScoreTestCase(TestCase):
+class ScoringTestCase(TestCase):
     def test_score_upper_section(self):
         self.assertEqual(score_upper_section([1, 1, 1, 2, 3], face=1), 3)
         self.assertEqual(score_upper_section([2, 1, 2, 2, 4], face=2), 6)
