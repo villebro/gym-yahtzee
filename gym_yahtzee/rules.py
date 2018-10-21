@@ -1,6 +1,7 @@
 from collections import Counter
 from typing import Collection
 
+
 def score_upper_section(dice: Collection[int], category: int) -> int:
     """
     Calculate the score for a category in the upper section. For example, the score
