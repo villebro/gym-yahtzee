@@ -6,7 +6,7 @@ from gym_yahtzee.scoring import (
     score_large_straight,
     score_yahtzee,
     score_chance,
-
+    score_upper_section_bonus,
 )
 from unittest import TestCase
 
@@ -55,3 +55,8 @@ class ScoringTestCase(TestCase):
         self.assertEqual(score_chance([1, 1, 1, 1, 1]), 5)
         self.assertEqual(score_chance([6, 6, 6, 6, 6]), 30)
         self.assertEqual(score_chance([1, 2, 3, 4, 5]), 15)
+
+    def test_upper_section_bonus(self):
+        self.assertEqual(score_upper_section_bonus(0), 0)
+        self.assertEqual(score_upper_section_bonus(63), 35)
+        self.assertEqual(score_upper_section_bonus(100), 35)

@@ -55,3 +55,7 @@ def score_yahtzee(dice: List[int]) -> int:
 
 def score_chance(dice: List[int]) -> int:
     return sum(dice)
+
+
+def score_upper_section_bonus(upper_section_score: int) -> int:
+    return 35 if upper_section_score >= 63 else 0
