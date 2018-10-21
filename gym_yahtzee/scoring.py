@@ -50,7 +50,7 @@ def score_yahtzee(dice: List[int]) -> int:
     for die, count in Counter(dice).most_common(1):
         if count == 5:
             return 50
-        return 0
+    return 0
 
 
 def score_chance(dice: List[int]) -> int:
