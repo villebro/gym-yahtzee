@@ -1,8 +1,8 @@
 from collections import Counter
-from typing import Collection, Set
+from typing import List, Set
 
 
-def score_upper_section(dice: Collection[int], category: int) -> int:
+def score_upper_section(dice: List[int], category: int) -> int:
     """
     Calculate the score for a category in the upper section. For example, the score
     for dice = [1, 1, 2, 2, 3] and category = 2 (twos) would be 4.
@@ -14,21 +14,21 @@ def score_upper_section(dice: Collection[int], category: int) -> int:
     return sum(die if die == category else 0 for die in dice)
 
 
-def score_three_of_a_kind(dice: Collection[int]) -> int:
+def score_three_of_a_kind(dice: List[int]) -> int:
     for die, count in Counter(dice).most_common(1):
         if count >= 3:
             return die * 3
     return 0
 
 
-def score_four_of_a_kind(dice: Collection[int]) -> int:
+def score_four_of_a_kind(dice: List[int]) -> int:
     for die, count in Counter(dice).most_common(1):
         if count >= 4:
             return die * 4
     return 0
 
 
-def score_full_house(dice: Collection[int]) -> int:
+def score_full_house(dice: List[int]) -> int:
     counter = Counter(dice)
     if len(counter.keys()) == 2 and min(counter.values()) == 2:
         return sum(counter.elements())
@@ -39,7 +39,7 @@ def _are_two_sets_equal(a: Set, b: Set) -> bool:
     return a.intersection(b) == a
 
 
-def score_small_straight(dice: Collection[int]) -> int:
+def score_small_straight(dice: List[int]) -> int:
     dice_set = set(dice)
     if _are_two_sets_equal({1, 2, 3, 4}, dice_set) or \
             _are_two_sets_equal({2, 3, 4, 5}, dice_set) or \
@@ -48,7 +48,7 @@ def score_small_straight(dice: Collection[int]) -> int:
     return 0
 
 
-def score_large_straight(dice: Collection[int]) -> int:
+def score_large_straight(dice: List[int]) -> int:
     dice_set = set(dice)
     if _are_two_sets_equal({1, 2, 3, 4, 5}, dice_set) or \
             _are_two_sets_equal({2, 3, 4, 5, 6}, dice_set):
@@ -56,8 +56,12 @@ def score_large_straight(dice: Collection[int]) -> int:
     return 0
 
 
-def score_yahtzee(dice: Collection[int]) -> int:
+def score_yahtzee(dice: List[int]) -> int:
     for die, count in Counter(dice).most_common(1):
         if count == 5:
             return 50
         return 0
+
+
+def score_chance(dice: List[int]) -> int:
+    return sum(dice)
