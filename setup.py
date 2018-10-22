@@ -5,7 +5,6 @@ setup(
     version='0.0.1',
     install_requires=[
         'gym',
-        'pip-tools',
     ],
     classifiers=[
         'Programming Language :: Python :: 3.6',
