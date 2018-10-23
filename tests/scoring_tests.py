@@ -32,6 +32,7 @@ class ScoringTestCase(TestCase):
     def test_score_full_house(self):
         self.assertEqual(score_full_house([1, 1, 1, 2, 2]), 7)
         self.assertEqual(score_full_house([1, 1, 1, 2, 3]), 0)
+        self.assertEqual(score_full_house([6, 6, 6, 5, 5]), 28)
 
     def test_score_small_straight(self):
         self.assertEqual(score_small_straight([1, 3, 2, 5, 4]), 30)
@@ -60,3 +61,26 @@ class ScoringTestCase(TestCase):
         self.assertEqual(score_upper_section_bonus(0), 0)
         self.assertEqual(score_upper_section_bonus(63), 35)
         self.assertEqual(score_upper_section_bonus(100), 35)
+
+    def test_max_score(self):
+        upper_section_score = score_upper_section([1, 1, 1, 1, 1], 1) + \
+            score_upper_section([2, 2, 2, 2, 2], 2) + \
+            score_upper_section([3, 3, 3, 3, 3], 3) + \
+            score_upper_section([4, 4, 4, 4, 4], 4) + \
+            score_upper_section([5, 5, 5, 5, 5], 5) + \
+            score_upper_section([6, 6, 6, 6, 6], 6)
+        upper_section_bonus = score_upper_section_bonus(upper_section_score)
+        lower_section_score = score_x_of_a_kind([6, 6, 6, 6, 6], 3) + \
+            score_x_of_a_kind([6, 6, 6, 6, 6], 4) + \
+            score_full_house([6, 6, 6, 5, 5]) + \
+            score_small_straight([1, 2, 3, 4, 5]) + \
+            score_large_straight([1, 2, 3, 4, 5]) + \
+            score_yahtzee([6, 6, 6, 6, 6]) + \
+            score_chance([6, 6, 6, 6, 6])
+
+        self.assertEqual(upper_section_score, 105)
+        self.assertEqual(upper_section_bonus, 35)
+        self.assertEqual(lower_section_score, 220)
+        self.assertEqual(upper_section_score +
+                         upper_section_bonus +
+                         lower_section_score, 360)
