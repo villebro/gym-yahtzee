@@ -9,5 +9,5 @@ script:
 #  - flake8
   - mypy --ignore-missing-imports .
   - nosetests -v --with-coverage
-#after_success:
-#  codecov
+after_success:
+  codecov
