@@ -1,3 +1,10 @@
+"""
+Collection of components that are needed for gameplay, including maps that make it
+possible to convert actions (e.g. choosing threes on the scorecard) to score boxes
+(e.g. full house on the scorecard) and vice versa. Similar maps are also provided
+for mapping dice rolling lists (e.g. reroll dice 2, 3 and 4 but keep dice 1 and 5)
+to and from actions and scorebox to scoring functions.
+"""
 from enum import IntEnum
 from typing import Callable, Dict, Tuple
 
@@ -23,7 +30,10 @@ class ScoreBox(IntEnum):
     UPPER_SECTION_BONUS = 13
 
 
-# Mapping from action id to permutations of rerolling of dice
+# Mapping from action id to permutations of rerolling of dice. Each unique combination
+# of dice rolls is given a unique id, resulting in 32 unique constellations. However,
+# keeping all dice is left out, as the player should then choose a score box from the
+# scorecard. Hence there are 31 unique rerolling patterns.
 action_to_dice_roll_map: Dict[int, Tuple[bool, bool, bool, bool, bool]] = {}
 dice_roll_to_action_map: Dict[Tuple[bool, bool, bool, bool, bool], int] = {}
 for d1 in [1, 0]:
@@ -40,7 +50,7 @@ for d1 in [1, 0]:
                         dice_roll_to_action_map[value] = key
 
 
-# Mapping from action id to scorebox and vice versa
+# Mapping from action id to scorebox and vice versa.
 action_to_scorebox_map: Dict[int, ScoreBox] = {}
 scorebox_to_action_map: Dict[ScoreBox, int] = {}
 for i in range(13):

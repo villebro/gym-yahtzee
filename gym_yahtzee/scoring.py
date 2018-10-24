@@ -1,7 +1,8 @@
 """
-Scoring functions for lists with five dice. All functions are given a minimum
-a list of ints representing the number of dots on the face. If the list of dice
-does is not valid for the scoring function, a zero is retured.
+Scoring functions for lists with five dice. All functions (except upper sectino bonus)
+are given a a list of ints representing the number of dots on the face. If the list of
+dice is not valid for the scoring function, a zero is retured, indicating that the user
+has stricken that score box off the scorecard.
 """
 from collections import Counter
 from typing import List, Set
