@@ -17,7 +17,7 @@ mccabe==0.6.1             # via flake8
 mypy-extensions==0.4.1    # via mypy
 mypy==0.641
 nose==1.3.7
-numpy==1.15.2             # via gym, scipy
+numpy==1.15.3             # via gym, scipy
 pip-tools==3.1.0
 pycodestyle==2.4.0        # via flake8
 pyflakes==2.0.0           # via flake8

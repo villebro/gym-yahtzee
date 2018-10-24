@@ -11,5 +11,5 @@ Yahtzee game using OpenAI Gym meant to be used specifically for Reinforcement Le
 ### Updating dependencies ###
 
 ```bash
-pip-compile -r --output-file requirements.txt setup.py requirements-dev.in
+pip-compile -U --output-file requirements.txt setup.py requirements-dev.in
 ```
