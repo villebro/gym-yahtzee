@@ -1,5 +1,5 @@
 from enum import IntEnum
-from typing import Callable, Dict
+from typing import Callable, Dict, Tuple
 
 from gym_yahtzee.scoring import *
 
@@ -24,7 +24,8 @@ class ScoreBox(IntEnum):
 
 
 # Mapping from action id to permutations of rerolling of dice
-dice_rolling_map: Dict[int, List[bool]] = {}
+action_to_dice_roll_map: Dict[int, Tuple[bool, bool, bool, bool, bool]] = {}
+dice_roll_to_action_map: Dict[Tuple[bool, bool, bool, bool, bool], int] = {}
 for d1 in [1, 0]:
     for d2 in [1, 0]:
         for d3 in [1, 0]:
@@ -32,10 +33,11 @@ for d1 in [1, 0]:
                 for d5 in [1, 0]:
                     # make rolling all dice the first action, i.e. zero
                     key = 31 - (d5*2**0 + d4*2**1 + d3*2**2 + d2*2**3 + d1*2**4)
-                    value = [bool(d1), bool(d2), bool(d3), bool(d4), bool(d5)]
+                    value = bool(d1), bool(d2), bool(d3), bool(d4), bool(d5)
                     # not rolling any dice is not a valid action
                     if key < 31:
-                        dice_rolling_map[key] = value
+                        action_to_dice_roll_map[key] = value
+                        dice_roll_to_action_map[value] = key
 
 
 # Mapping from action id to scorebox and vice versa

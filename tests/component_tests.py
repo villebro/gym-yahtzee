@@ -1,5 +1,5 @@
 from gym_yahtzee.component import (
-    dice_rolling_map,
+    action_to_dice_roll_map,
     ScoreBox,
     scorebox_to_scoring_function_map,
 )
@@ -12,5 +12,5 @@ class ActionTestCase(TestCase):
         self.assertEqual(scorebox_to_scoring_function_map[ScoreBox.ACES]([1, 1, 1, 1, 1]), 5)  # noqa
 
     def test_rolling_action_map(self):
-        self.assertListEqual(dice_rolling_map[0], [1, 1, 1, 1, 1])
-        self.assertListEqual(dice_rolling_map[30], [0, 0, 0, 0, 1])
+        self.assertTupleEqual(action_to_dice_roll_map[0], (True, True, True, True, True))
+        self.assertTupleEqual(action_to_dice_roll_map[30], (False, False, False, False, True))  # noqa

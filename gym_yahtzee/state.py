@@ -1,22 +1,22 @@
 from random import Random
-from typing import Dict, Optional
+from typing import Dict, Optional, Set
 
 from gym_yahtzee.component import (
     action_to_scorebox_map,
-    dice_rolling_map,
+    action_to_dice_roll_map,
     ScoreBox,
+    SCOREBOX_ACTION_OFFSET,
     scorebox_to_action_map,
     scorebox_to_scoring_function_map,
 )
-
+from gym_yahtzee.scoring import score_upper_section_bonus
 
 class State:
     def __init__(self, seed: int = None):
+        self.upper_section_score = 0
         self.turn = 0
         self.dice = [0, 0, 0, 0, 0]
         self.scores: Dict[ScoreBox, Optional[int]] = {}
-        for scorebox in ScoreBox:
-            self.scores[scorebox] = None
 
         if seed:
             self.rnd = Random(seed)
@@ -54,14 +54,25 @@ class State:
             return 0
 
         # if dice rolling action
-        if action < 31:
+        if action < SCOREBOX_ACTION_OFFSET:
             self.turn += 1
-            self.roll_dice(*dice_rolling_map[action])
+            self.roll_dice(*action_to_dice_roll_map[action])
             return 0
 
         scorebox = action_to_scorebox_map[action]
         scoring_function = scorebox_to_scoring_function_map[scorebox]
         reward = scoring_function(self.dice)
         self.scores[scorebox] = reward
+
+        # upper section
+        if SCOREBOX_ACTION_OFFSET <= action <= SCOREBOX_ACTION_OFFSET + 5:
+            self.upper_section_score += reward
+            upper_scores = [v for k, v in self.scores.items()
+                            if int(k) <= int(ScoreBox.SIXES)]
+            if len(upper_scores) == 6:
+                bonus_reward = score_upper_section_bonus(self.upper_section_score)
+                self.scores[ScoreBox.UPPER_SECTION_BONUS] = bonus_reward
+                reward += bonus_reward
+
         return reward
 
