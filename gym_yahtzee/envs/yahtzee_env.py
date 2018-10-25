@@ -11,9 +11,9 @@ import sys
 
 class YahtzeeSingleEnv(gym.Env):
     metadata = {'render.modes': ['human']}
-    state = gym_yahtzee.state.State()
 
     def __init__(self):
+        self.state = gym_yahtzee.state.State()
         self.action_space = spaces.Discrete(44)
         self.observation_space = spaces.Tuple((
             spaces.Discrete(6),  # die 1 score
@@ -27,11 +27,16 @@ class YahtzeeSingleEnv(gym.Env):
             spaces.Box(low=0, high=220, shape=(1,), dtype=np.uint8),  # lower score
         ))
 
+    def sample_action(self):
+        return self.state.sample_action()
+
     def step(self, action: int):
         reward = self.state.take_action(action)
+        return None, reward, True, None
+
 
     def reset(self):
-        pass
+        self.state = gym_yahtzee.state.State()
 
     def render(self, mode='human', close=False):
         dice = self.state.dice

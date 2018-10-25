@@ -48,6 +48,10 @@ class State:
 
         return possible_actions
 
+    def sample_action(self):
+        actions = self.get_possible_actions()
+        return self.rnd.sample(actions, 1)
+
     def take_action(self, action: int) -> int:
         possible_actions = self.get_possible_actions()
         if action not in possible_actions:
