@@ -37,33 +37,17 @@ class YahtzeeSingleEnv(gym.Env):
     def sample_action(self):
         return self.state.sample_action()
 
-    def step(self, action: int):
+    def step(self, action):
         reward = self.state.take_action(action)
-        return None, reward, True, None
+        print(self.state.round, self.state.sub_round)
+        return None, reward, self.state.is_finished(), None
 
     def reset(self):
         self.state = gym_yahtzee.state.State()
 
     def render(self, mode='human', close=False):
         dice = self.state.dice
-        turn = self.state.turn
-        scores = self.state.scores
         outfile = sys.stdout
-        outfile.write(f'Dice: {dice[0]} {dice[1]} {dice[2]} {dice[3]} {dice[4]}\n')
-        outfile.write(f'Turn: {turn}\n')
-        outfile.write('\n')
-        outfile.write(f'Aces: {get_score(scores[Category.ACES])}\n')
-        outfile.write(f'Twos: {get_score(scores[Category.TWOS])}\n')
-        outfile.write(f'Threes: {get_score(scores[Category.THREES])}\n')
-        outfile.write(f'Fours: {get_score(scores[Category.FOURS])}\n')
-        outfile.write(f'Fives: {get_score(scores[Category.FIVES])}\n')
-        outfile.write(f'Sixes: {get_score(scores[Category.SIXES])}\n')
-        outfile.write(f'Bonus: {get_score(scores[Category.UPPER_SECTION_BONUS])}\n')
-        outfile.write('\n')
-        outfile.write(f'Three of a kind: {get_score(scores[Category.THREE_OF_A_KIND])}\n')
-        outfile.write(f'Four of a kind: {get_score(scores[Category.FOUR_OF_A_KIND])}\n')
-        outfile.write(f'Full house: {get_score(scores[Category.FULL_HOUSE])}')
-        outfile.write(f'Small straight: {get_score(scores[Category.SMALL_STRAIGHT])}\n')
-        outfile.write(f'Large straight: {get_score(scores[Category.LARGE_STRAIGHT])}\n')
-        outfile.write(f'Yahtzee: {get_score(scores[Category.YAHTZEE])}\n')
-        outfile.write(f'Chance: {get_score(scores[Category.CHANCE])}\n')
+        outfile.write(f'Dice: {dice[0]} {dice[1]} {dice[2]} {dice[3]} {dice[4]} '
+                      f'Round: {self.state.round}.{self.state.sub_round} '
+                      f'Score: {self.state.get_total_score()}\n')
