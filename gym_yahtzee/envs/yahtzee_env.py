@@ -39,7 +39,6 @@ class YahtzeeSingleEnv(gym.Env):
 
     def step(self, action):
         reward = self.state.take_action(action)
-        print(self.state.round, self.state.sub_round)
         return None, reward, self.state.is_finished(), None
 
     def reset(self):
