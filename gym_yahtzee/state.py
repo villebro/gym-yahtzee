@@ -1,5 +1,5 @@
 from random import Random
-from typing import Dict, Optional
+from typing import Dict, List, Optional
 
 from gym_yahtzee.component import (
     action_to_category_map,
@@ -19,7 +19,8 @@ class State:
         # a game has a total of 12 rounds
         self.round = 0
 
-        # a round consists of max 3 dice rolls + 1 action = 4
+        # a round consists of max 3 dice rolls + 1 action = 4. Sub-round zero is
+        # reserved for two player game when a player has not yet started the round
         self.sub_round = 1
 
         if seed:
@@ -85,7 +86,7 @@ class State:
             upper_scores = [v for k, v in self.scores.items()
                             if int(k) <= int(Category.SIXES)]
             if len(upper_scores) == 6:
-                bonus_reward = score_upper_section_bonus(sum(upper_scores))
+                bonus_reward = score_upper_section_bonus(sum(filter(None, upper_scores)))
                 self.scores[Category.UPPER_SECTION_BONUS] = bonus_reward
                 reward += bonus_reward
 
@@ -95,4 +96,4 @@ class State:
         return True if self.round == 13 else False
 
     def get_total_score(self):
-        return sum(self.scores.values())
+        return filter(None, [v for v in self.scores.values()])

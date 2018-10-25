@@ -13,7 +13,7 @@ import sys
 
 
 def get_score(score: Optional[int]) -> str:
-    return '' if score is None else score
+    return '' if score is None else str(score)
 
 
 class YahtzeeSingleEnv(gym.Env):
