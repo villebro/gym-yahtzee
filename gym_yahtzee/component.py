@@ -10,8 +10,6 @@ from typing import Callable, Dict, Tuple
 
 from gym_yahtzee.scoring import *
 
-SCOREBOX_ACTION_OFFSET = 31
-
 
 class ScoreBox(IntEnum):
     ACES = 0
@@ -33,7 +31,9 @@ class ScoreBox(IntEnum):
 # Mapping from action id to permutations of rerolling of dice. Each unique combination
 # of dice rolls is given a unique id, resulting in 32 unique constellations. However,
 # keeping all dice is left out, as the player should then choose a score box from the
-# scorecard. Hence there are 31 unique rerolling patterns.
+# scorecard, hence there are 31 unique rerolling patterns. An offset constant is
+# provided, as scorebox actions are located after dice rolling actions.
+SCOREBOX_ACTION_OFFSET = 31
 action_to_dice_roll_map: Dict[int, Tuple[bool, bool, bool, bool, bool]] = {}
 dice_roll_to_action_map: Dict[Tuple[bool, bool, bool, bool, bool], int] = {}
 for d1 in [1, 0]:
