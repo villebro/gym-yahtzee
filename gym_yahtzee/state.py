@@ -93,3 +93,6 @@ class State:
 
     def is_finished(self):
         return True if self.round == 13 else False
+
+    def get_total_score(self):
+        return sum(self.scores.values())

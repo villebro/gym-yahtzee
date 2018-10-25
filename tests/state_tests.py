@@ -118,4 +118,5 @@ class StateTestCase(TestCase):
         state.take_action(category_to_action_map[Category.YAHTZEE])
         state.dice = [6, 6, 6, 6, 6]
         state.take_action(category_to_action_map[Category.CHANCE])
+        self.assertEqual(state.get_total_score(), 360)
         self.assertTrue(state.is_finished())
