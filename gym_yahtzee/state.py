@@ -96,4 +96,4 @@ class State:
         return True if self.round == 13 else False
 
     def get_total_score(self):
-        return filter(None, [v for v in self.scores.values()])
+        return sum(filter(None, [v for v in self.scores.values()]))
