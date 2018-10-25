@@ -2,11 +2,18 @@ import gym
 from gym import error, spaces, utils
 from gym.utils import seeding
 
+from typing import Optional
+
 import gym_yahtzee.state
+from gym_yahtzee.component import Category
 
 import numpy as np
 
 import sys
+
+
+def get_score(score: Optional[int]) -> str:
+    return '' if score is None else score
 
 
 class YahtzeeSingleEnv(gym.Env):
@@ -34,28 +41,29 @@ class YahtzeeSingleEnv(gym.Env):
         reward = self.state.take_action(action)
         return None, reward, True, None
 
-
     def reset(self):
         self.state = gym_yahtzee.state.State()
 
     def render(self, mode='human', close=False):
         dice = self.state.dice
+        turn = self.state.turn
+        scores = self.state.scores
         outfile = sys.stdout
-        outfile.write(f'Dice {dice[0]} {dice[1]} {dice[2]} {dice[3]} {dice[4]} \n')
-        outfile.write('Dice rolls ' + '\n')
+        outfile.write(f'Dice: {dice[0]} {dice[1]} {dice[2]} {dice[3]} {dice[4]}\n')
+        outfile.write(f'Turn: {turn}\n')
         outfile.write('\n')
-        outfile.write('Aces ' + '\n')
-        outfile.write('Twos ' + '\n')
-        outfile.write('Threes ' + '\n')
-        outfile.write('Fours ' + '\n')
-        outfile.write('Fives ' + '\n')
-        outfile.write('Sixes ' + '\n')
-        outfile.write('Bonus ' + '\n')
+        outfile.write(f'Aces: {get_score(scores[Category.ACES])}\n')
+        outfile.write(f'Twos: {get_score(scores[Category.TWOS])}\n')
+        outfile.write(f'Threes: {get_score(scores[Category.THREES])}\n')
+        outfile.write(f'Fours: {get_score(scores[Category.FOURS])}\n')
+        outfile.write(f'Fives: {get_score(scores[Category.FIVES])}\n')
+        outfile.write(f'Sixes: {get_score(scores[Category.SIXES])}\n')
+        outfile.write(f'Bonus: {get_score(scores[Category.UPPER_SECTION_BONUS])}\n')
         outfile.write('\n')
-        outfile.write('Three of a kind ' + '\n')
-        outfile.write('Four of a kind ' + '\n')
-        outfile.write('Full house ' + '\n')
-        outfile.write('Small straight ' + '\n')
-        outfile.write('Large straight ' + '\n')
-        outfile.write('Yahtzee ' + '\n')
-        outfile.write('Chance ' + '\n')
+        outfile.write(f'Three of a kind: {get_score(scores[Category.THREE_OF_A_KIND])}\n')
+        outfile.write(f'Four of a kind: {get_score(scores[Category.FOUR_OF_A_KIND])}\n')
+        outfile.write(f'Full house: {get_score(scores[Category.FULL_HOUSE])}')
+        outfile.write(f'Small straight: {get_score(scores[Category.SMALL_STRAIGHT])}\n')
+        outfile.write(f'Large straight: {get_score(scores[Category.LARGE_STRAIGHT])}\n')
+        outfile.write(f'Yahtzee: {get_score(scores[Category.YAHTZEE])}\n')
+        outfile.write(f'Chance: {get_score(scores[Category.CHANCE])}\n')

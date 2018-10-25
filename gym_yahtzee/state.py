@@ -1,27 +1,34 @@
 from random import Random
-from typing import Dict, Optional, Set
+from typing import Dict, Optional
 
 from gym_yahtzee.component import (
-    action_to_scorebox_map,
+    action_to_category_map,
     action_to_dice_roll_map,
-    ScoreBox,
+    Category,
     SCOREBOX_ACTION_OFFSET,
-    scorebox_to_action_map,
-    scorebox_to_scoring_function_map,
+    category_to_action_map,
+    category_to_scoring_function_map,
 )
 from gym_yahtzee.scoring import score_upper_section_bonus
 
+
 class State:
     def __init__(self, seed: int = None):
-        self.upper_section_score = 0
-        self.turn = 0
-        self.dice = [0, 0, 0, 0, 0]
-        self.scores: Dict[ScoreBox, Optional[int]] = {}
+        self.scores: Dict[Category, Optional[int]] = {}
+
+        # a game has a total of 12 rounds
+        self.round = 0
+
+        # a round consists of max 3 dice rolls + 1 action = 4
+        self.sub_round = 1
 
         if seed:
             self.rnd = Random(seed)
         else:
             self.rnd = Random()
+
+        # initialize dice
+        self.dice = [0, 0, 0, 0, 0]
         self.roll_dice(True, True, True, True, True)
 
     def roll_dice(self, d1: bool, d2: bool, d3: bool, d4: bool, d5: bool):
@@ -34,14 +41,14 @@ class State:
         possible_actions = []
 
         # determine if rerolling dice is possible; is so, add all possible permutations
-        if self.turn < 3:
+        if self.sub_round < 3:
             possible_actions.extend(list(range(31)))
 
-        # See which scoreboxex are still unused
-        for scorebox in ScoreBox:
-            if not self.scores.get(scorebox):
-                action = scorebox_to_action_map.get(scorebox)
-                # Check if the scorebox has an action associated with it
+        # See which categories are still unused
+        for category in Category:
+            if not self.scores.get(category):
+                action = category_to_action_map.get(category)
+                # Check if the category has an action associated with it
                 # (upper section bonus is automatic).
                 if action:
                     possible_actions.append(action)
@@ -59,24 +66,30 @@ class State:
 
         # if dice rolling action
         if action < SCOREBOX_ACTION_OFFSET:
-            self.turn += 1
+            self.sub_round += 1
             self.roll_dice(*action_to_dice_roll_map[action])
             return 0
 
-        scorebox = action_to_scorebox_map[action]
-        scoring_function = scorebox_to_scoring_function_map[scorebox]
+        # all non-rolling actions lead to the sub-round
+        # ending and moving to the next round
+        self.round += 1
+        self.sub_round = 0
+
+        category = action_to_category_map[action]
+        scoring_function = category_to_scoring_function_map[category]
         reward = scoring_function(self.dice)
-        self.scores[scorebox] = reward
+        self.scores[category] = reward
 
         # upper section
         if SCOREBOX_ACTION_OFFSET <= action <= SCOREBOX_ACTION_OFFSET + 5:
-            self.upper_section_score += reward
             upper_scores = [v for k, v in self.scores.items()
-                            if int(k) <= int(ScoreBox.SIXES)]
+                            if int(k) <= int(Category.SIXES)]
             if len(upper_scores) == 6:
-                bonus_reward = score_upper_section_bonus(self.upper_section_score)
-                self.scores[ScoreBox.UPPER_SECTION_BONUS] = bonus_reward
+                bonus_reward = score_upper_section_bonus(sum(upper_scores))
+                self.scores[Category.UPPER_SECTION_BONUS] = bonus_reward
                 reward += bonus_reward
 
         return reward
 
+    def is_finished(self):
+        return True if self.round == 13 else False
