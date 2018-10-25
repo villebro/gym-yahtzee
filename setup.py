@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='gym_yahtzee',
-    version='0.0.1',
+    version='0.9.0',
     install_requires=[
         'gym',
     ],
