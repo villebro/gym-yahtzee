@@ -1,7 +1,5 @@
 from gym_yahtzee.envs.yahtzee_env import YahtzeeSingleEnv
 
-import gym
-
 from unittest import TestCase
 
 
