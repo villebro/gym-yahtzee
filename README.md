@@ -3,7 +3,6 @@
 [![Requirements Status](https://requires.io/github/villebro/gym-yahtzee/requirements.svg?branch=master)](https://requires.io/github/villebro/gym-yahtzee/requirements/?branch=master)
 [![PyPI version](https://img.shields.io/pypi/v/gym-yahtzee.svg)](https://badge.fury.io/py/gym-yahtzee)
 [![PyPI](https://img.shields.io/pypi/pyversions/gym-yahtzee.svg)](https://www.python.org/downloads/)
-[![PyPI license](https://img.shields.io/pypi/l/gym-yahtzee.svg)](https://opensource.org/licenses/MIT)
 # gym-yahtzee #
 
 Yahtzee game using OpenAI Gym meant to be used specifically for Reinforcement Learning.
