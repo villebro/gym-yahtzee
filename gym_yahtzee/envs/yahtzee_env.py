@@ -1,11 +1,9 @@
 import gym
-from gym import error, spaces, utils
-from gym.utils import seeding
+from gym import spaces
 
 from typing import Optional
 
 import gym_yahtzee.state
-from gym_yahtzee.component import Category
 
 import numpy as np
 
