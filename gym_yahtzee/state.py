@@ -94,7 +94,8 @@ class State:
         if category != Category.YAHTZEE and self.is_extra_yahtzee():
             extra_yahtzee_reward = score_extra_yahtzee()
             reward += extra_yahtzee_reward
-            extra_yahtzee_score = self.scores.get(Category.EXTRA_YAHTZEES, 0)
+            extra_yahtzee_score = self.scores.get(Category.EXTRA_YAHTZEES)
+            extra_yahtzee_score = extra_yahtzee_score if extra_yahtzee_score else 0
             self.scores[Category.EXTRA_YAHTZEES] = extra_yahtzee_score + extra_yahtzee_reward  # noqa
 
         return reward
