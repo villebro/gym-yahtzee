@@ -5,7 +5,7 @@ dice is not valid for the scoring function, a zero is retured, indicating that t
 has stricken that score box off the scorecard.
 """
 from collections import Counter
-from typing import List, Optional, Set
+from typing import List, Set
 
 
 def score_upper_section(dice: List[int], face: int) -> int:
