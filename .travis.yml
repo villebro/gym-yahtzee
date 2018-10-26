@@ -6,7 +6,7 @@ install: "pip install -r requirements.txt"
 #  - cp .env.example .env
 #  - python manage.py migrate
 script:
-#  - flake8
+  - flake8
   - mypy --ignore-missing-imports .
   - nosetests -v --with-coverage
 after_success:
