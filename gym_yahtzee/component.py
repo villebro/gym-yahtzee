@@ -8,7 +8,15 @@ to and from actions and categories to scoring functions.
 from enum import IntEnum
 from typing import Callable, Dict, Tuple
 
-from gym_yahtzee.scoring import *
+from gym_yahtzee.scoring import (
+    score_chance,
+    score_full_house,
+    score_large_straight,
+    score_small_straight,
+    score_upper_section,
+    score_x_of_a_kind,
+    score_yahtzee,
+)
 
 
 class Category(IntEnum):
@@ -26,6 +34,7 @@ class Category(IntEnum):
     YAHTZEE = 11
     CHANCE = 12
     UPPER_SECTION_BONUS = 13
+    EXTRA_YAHTZEES = 14
 
 
 # Mapping from action id to permutations of rerolling of dice. Each unique combination
@@ -42,7 +51,7 @@ for d1 in [1, 0]:
             for d4 in [1, 0]:
                 for d5 in [1, 0]:
                     # make rolling all dice the first action, i.e. zero
-                    key = 31 - (d5*2**0 + d4*2**1 + d3*2**2 + d2*2**3 + d1*2**4)
+                    key = 31 - (d5 * 2**0 + d4 * 2**1 + d3 * 2**2 + d2 * 2**3 + d1 * 2**4)
                     value = bool(d1), bool(d2), bool(d3), bool(d4), bool(d5)
                     # not rolling any dice is not a valid action
                     if key < 31:
