@@ -1,4 +1,5 @@
 from gym_yahtzee.scoring import (
+    score_extra_yahtzee,
     score_upper_section,
     score_x_of_a_kind,
     score_full_house,
@@ -18,21 +19,22 @@ class ScoringTestCase(TestCase):
         self.assertEqual(score_upper_section([1, 1, 1, 2, 3], face=6), 0)
 
     def test_score_three_of_a_kind(self):
-        self.assertEqual(score_x_of_a_kind([1, 1, 1, 2, 2], min_same_faces=3), 3)
-        self.assertEqual(score_x_of_a_kind([2, 2, 2, 3, 2], min_same_faces=3), 6)
+        self.assertEqual(score_x_of_a_kind([1, 1, 1, 2, 2], min_same_faces=3), 7)
+        self.assertEqual(score_x_of_a_kind([2, 2, 2, 3, 2], min_same_faces=3), 11)
         self.assertEqual(score_x_of_a_kind([1, 2, 2, 3, 6], min_same_faces=3), 0)
-        self.assertEqual(score_x_of_a_kind([6, 6, 6, 6, 6], min_same_faces=3), 18)
+        self.assertEqual(score_x_of_a_kind([6, 6, 6, 6, 6], min_same_faces=3), 30)
 
     def test_score_four_of_a_kind(self):
-        self.assertEqual(score_x_of_a_kind([1, 1, 1, 2, 1], 4), 4)
-        self.assertEqual(score_x_of_a_kind([2, 2, 2, 3, 2], 4), 8)
+        self.assertEqual(score_x_of_a_kind([1, 1, 1, 2, 1], 4), 6)
+        self.assertEqual(score_x_of_a_kind([2, 2, 2, 3, 2], 4), 11)
         self.assertEqual(score_x_of_a_kind([1, 2, 2, 3, 6], 4), 0)
-        self.assertEqual(score_x_of_a_kind([6, 6, 6, 6, 6], 4), 24)
+        self.assertEqual(score_x_of_a_kind([6, 6, 6, 6, 6], 4), 30)
 
     def test_score_full_house(self):
-        self.assertEqual(score_full_house([1, 1, 1, 2, 2]), 7)
+        self.assertEqual(score_full_house([1, 1, 1, 2, 2]), 25)
         self.assertEqual(score_full_house([1, 1, 1, 2, 3]), 0)
-        self.assertEqual(score_full_house([6, 6, 6, 5, 5]), 28)
+        self.assertEqual(score_full_house([6, 6, 6, 5, 5]), 25)
+        self.assertEqual(score_full_house([6, 6, 6, 6, 6]), 25)
 
     def test_score_small_straight(self):
         self.assertEqual(score_small_straight([1, 3, 2, 5, 4]), 30)
@@ -62,7 +64,10 @@ class ScoringTestCase(TestCase):
         self.assertEqual(score_upper_section_bonus(63), 35)
         self.assertEqual(score_upper_section_bonus(100), 35)
 
-    def test_max_score(self):
+    def test_score_extra_yahtzee(self):
+        self.assertEqual(score_extra_yahtzee(), 100)
+
+    def test_naive_max_score(self):
         upper_section_score = score_upper_section([1, 1, 1, 1, 1], 1) + \
             score_upper_section([2, 2, 2, 2, 2], 2) + \
             score_upper_section([3, 3, 3, 3, 3], 3) + \
@@ -80,7 +85,7 @@ class ScoringTestCase(TestCase):
 
         self.assertEqual(upper_section_score, 105)
         self.assertEqual(upper_section_bonus, 35)
-        self.assertEqual(lower_section_score, 220)
+        self.assertEqual(lower_section_score, 235)
         self.assertEqual(upper_section_score +
                          upper_section_bonus +
-                         lower_section_score, 360)
+                         lower_section_score, 375)

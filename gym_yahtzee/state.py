@@ -1,5 +1,5 @@
 from random import Random
-from typing import Dict, List, Optional
+from typing import Dict, Optional
 
 from gym_yahtzee.component import (
     action_to_category_map,
@@ -9,7 +9,7 @@ from gym_yahtzee.component import (
     category_to_action_map,
     category_to_scoring_function_map,
 )
-from gym_yahtzee.scoring import score_upper_section_bonus
+from gym_yahtzee.scoring import score_upper_section_bonus, score_extra_yahtzee
 
 
 class State:
@@ -90,7 +90,22 @@ class State:
                 self.scores[Category.UPPER_SECTION_BONUS] = bonus_reward
                 reward += bonus_reward
 
+        # extra yahtzee
+        if category != Category.YAHTZEE and self.is_extra_yahtzee():
+            extra_yahtzee_reward = score_extra_yahtzee()
+            reward += extra_yahtzee_reward
+            extra_yahtzee_score = self.scores.get(Category.EXTRA_YAHTZEES, 0)
+            self.scores[Category.EXTRA_YAHTZEES] = extra_yahtzee_score + extra_yahtzee_reward  # noqa
+
         return reward
+
+    def is_extra_yahtzee(self):
+        if len(set(self.dice)) == 1 and self.scores.get(Category.YAHTZEE):
+            return True
+        return False
+
+    def is_yahtzee(self):
+        return True if len(set(self.dice)) == 1 else False
 
     def is_finished(self):
         return True if self.round == 13 else False

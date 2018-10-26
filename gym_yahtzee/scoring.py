@@ -5,7 +5,7 @@ dice is not valid for the scoring function, a zero is retured, indicating that t
 has stricken that score box off the scorecard.
 """
 from collections import Counter
-from typing import List, Set
+from typing import List, Optional, Set
 
 
 def score_upper_section(dice: List[int], face: int) -> int:
@@ -15,14 +15,18 @@ def score_upper_section(dice: List[int], face: int) -> int:
 def score_x_of_a_kind(dice: List[int], min_same_faces: int) -> int:
     for die, count in Counter(dice).most_common(1):
         if count >= min_same_faces:
-            return die * min_same_faces
+            return sum(dice)
     return 0
 
 
-def score_full_house(dice: List[int]) -> int:
+def score_full_house(dice: List[int], joker_rule: bool=True) -> int:
+    successful_score = 25
     counter = Counter(dice)
+    if joker_rule:
+        if len(counter.keys()) == 1:
+            return successful_score
     if len(counter.keys()) == 2 and min(counter.values()) == 2:
-        return sum(counter.elements())
+        return successful_score
     return 0
 
 
@@ -48,10 +52,13 @@ def score_large_straight(dice: List[int]) -> int:
 
 
 def score_yahtzee(dice: List[int]) -> int:
-    for die, count in Counter(dice).most_common(1):
-        if count == 5:
-            return 50
+    if len(set(dice)) == 1:
+        return 50
     return 0
+
+
+def score_extra_yahtzee() -> int:
+    return 100
 
 
 def score_chance(dice: List[int]) -> int:

@@ -92,6 +92,8 @@ class StateTestCase(TestCase):
 
     def test_perfect_score(self):
         state = State()
+        state.dice = [6, 6, 6, 6, 6]
+        state.take_action(category_to_action_map[Category.YAHTZEE])
         state.dice = [1, 1, 1, 1, 1]
         state.take_action(category_to_action_map[Category.ACES])
         state.dice = [2, 2, 2, 2, 2]
@@ -108,15 +110,13 @@ class StateTestCase(TestCase):
         state.take_action(category_to_action_map[Category.THREE_OF_A_KIND])
         state.dice = [6, 6, 6, 6, 6]
         state.take_action(category_to_action_map[Category.FOUR_OF_A_KIND])
-        state.dice = [6, 6, 6, 5, 5]
+        state.dice = [6, 6, 6, 6, 6]
         state.take_action(category_to_action_map[Category.FULL_HOUSE])
-        state.dice = [1, 2, 3, 4, 5]
+        state.dice = [6, 6, 6, 6, 6]
         state.take_action(category_to_action_map[Category.SMALL_STRAIGHT])
-        state.dice = [1, 2, 3, 4, 5]
+        state.dice = [6, 6, 6, 6, 6]
         state.take_action(category_to_action_map[Category.LARGE_STRAIGHT])
         state.dice = [6, 6, 6, 6, 6]
-        state.take_action(category_to_action_map[Category.YAHTZEE])
-        state.dice = [6, 6, 6, 6, 6]
         state.take_action(category_to_action_map[Category.CHANCE])
-        self.assertEqual(state.get_total_score(), 360)
+        self.assertEqual(state.get_total_score(), 1505)
         self.assertTrue(state.is_finished())
