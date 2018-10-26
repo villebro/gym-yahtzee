@@ -19,7 +19,7 @@ def score_x_of_a_kind(dice: List[int], min_same_faces: int) -> int:
     return 0
 
 
-def score_full_house(dice: List[int], joker_rule: bool=True) -> int:
+def score_full_house(dice: List[int], joker_rule: bool = True) -> int:
     successful_score = 25
     counter = Counter(dice)
     if joker_rule:
