@@ -14,6 +14,7 @@ setup(
     packages=find_packages(exclude='tests'),
     install_requires=[
         'gym',
+        'pyhtzee',
     ],
     classifiers=[
         'Programming Language :: Python :: 3.6',

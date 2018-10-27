@@ -3,7 +3,7 @@ from gym import spaces
 
 from typing import Optional
 
-import gym_yahtzee.state
+import pyhtzee.state
 
 import numpy as np
 
@@ -18,7 +18,7 @@ class YahtzeeSingleEnv(gym.Env):
     metadata = {'render.modes': ['human']}
 
     def __init__(self):
-        self.state = gym_yahtzee.state.State()
+        self.state = pyhtzee.state.State()
         self.action_space = spaces.Discrete(44)
         self.observation_space = spaces.Tuple((
             spaces.Discrete(6),  # die 1 score
@@ -40,7 +40,7 @@ class YahtzeeSingleEnv(gym.Env):
         return None, reward, self.state.is_finished(), None
 
     def reset(self):
-        self.state = gym_yahtzee.state.State()
+        self.state = pyhtzee.state.State()
 
     def render(self, mode='human', close=False):
         dice = self.state.dice
