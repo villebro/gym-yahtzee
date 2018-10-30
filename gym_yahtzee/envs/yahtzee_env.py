@@ -11,13 +11,16 @@ from pyhtzee import Pyhtzee
 from pyhtzee.classes import Category, PyhtzeeException, Rule
 
 
+log = logging.getLogger(__name__)
+
+
 class GameType(Enum):
     SUDDEN_DEATH = 0,
     RETRY_ON_WRONG_ACTION = 1
 
 
 def get_score(score: Optional[int]) -> int:
-    return score if score else -1
+    return score if score is not None else -1
 
 
 class YahtzeeSingleEnv(Env):
@@ -25,14 +28,15 @@ class YahtzeeSingleEnv(Env):
 
     def __init__(self,
                  rule: Rule = Rule.FREE_CHOICE_JOKER,
-                 game_type: GameType = GameType.RETRY_ON_WRONG_ACTION):
-        self.pyhtzee = Pyhtzee()
+                 game_type: GameType = GameType.RETRY_ON_WRONG_ACTION,
+                 seed=None):
+        self.pyhtzee = Pyhtzee(seed=seed)
         self.rule = rule
         self.game_type = game_type
         self.action_space = spaces.Discrete(44)
         self.observation_space = spaces.Tuple((
             spaces.Discrete(13),  # round
-            spaces.Discrete(3),  # sub-round
+            spaces.Discrete(4),  # sub-round
             spaces.Discrete(6),  # die 1 score
             spaces.Discrete(6),  # die 2 score
             spaces.Discrete(6),  # die 3 score
@@ -84,7 +88,7 @@ class YahtzeeSingleEnv(Env):
 
     def sample_action(self):
         action = self.pyhtzee.sample_action()
-        logging.info(f'Sampled action: {action}')
+        log.info(f'Sampled action: {action}')
         return action
 
     def step(self, action: int):
@@ -94,15 +98,15 @@ class YahtzeeSingleEnv(Env):
             finished = pyhtzee.is_finished()
         except PyhtzeeException:
             if self.game_type == GameType.SUDDEN_DEATH:
-                logging.info('Invalid action, terminating round.')
+                log.info('Invalid action, terminating round.')
                 reward = -pyhtzee.get_total_score()
                 finished = True
             else:  # retry on wrong action
-                logging.info('Invalid action, step ignored.')
+                log.info('Invalid action, step ignored.')
                 reward = 0
                 finished = False
 
-        logging.info(f'Finished step. Reward: {reward}, Finished: {finished}')
+        log.info(f'Finished step. Reward: {reward}, Finished: {finished}')
         return self.get_observation_space(), reward, finished, {}
 
     def reset(self):
