@@ -9,3 +9,4 @@ class YahtzeeSingleEnvTestCase(TestCase):
         env.reset()
         action = env.sample_action()
         observation, reward, done, info = env.step(action)
+        print(observation)
