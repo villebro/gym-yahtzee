@@ -27,7 +27,7 @@ class YahtzeeSingleEnv(Env):
     metadata = {'render.modes': ['human']}
 
     def __init__(self,
-                 rule: Rule = Rule.FREE_CHOICE_JOKER,
+                 rule: Rule = Rule.YAHTZEE_FREE_CHOICE_JOKER,
                  game_type: GameType = GameType.RETRY_ON_WRONG_ACTION,
                  seed=None):
         self.pyhtzee = Pyhtzee(seed=seed)
