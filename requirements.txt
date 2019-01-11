@@ -4,7 +4,7 @@
 #
 #    pip-compile --output-file requirements.txt setup.py requirements-dev.in
 #
-certifi==2018.10.15       # via requests
+certifi==2018.11.29       # via requests
 chardet==3.0.4            # via requests
 click==7.0                # via pip-tools
 codecov==2.0.15
@@ -12,19 +12,19 @@ coverage==4.5.2           # via codecov
 flake8==3.6.0
 future==0.17.1            # via pyglet
 gym==0.10.9
-idna==2.7                 # via requests
+idna==2.8                 # via requests
 mccabe==0.6.1             # via flake8
 mypy-extensions==0.4.1    # via mypy
-mypy==0.641
+mypy==0.650
 nose==1.3.7
 numpy==1.15.4             # via gym, scipy
-pip-tools==3.1.0
+pip-tools==3.2.0
 pycodestyle==2.4.0        # via flake8
 pyflakes==2.0.0           # via flake8
 pyglet==1.3.2             # via gym
-pyhtzee==1.1.0
-requests==2.20.1          # via codecov, gym
-scipy==1.1.0              # via gym
-six==1.11.0               # via gym, pip-tools
-typed-ast==1.1.0          # via mypy
+pyhtzee==1.2.0
+requests==2.21.0          # via codecov, gym
+scipy==1.2.0              # via gym
+six==1.12.0               # via gym, pip-tools
+typed-ast==1.1.1          # via mypy
 urllib3==1.24.1           # via requests
