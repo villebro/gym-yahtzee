@@ -42,21 +42,21 @@ class YahtzeeSingleEnv(Env):
             spaces.Discrete(6),  # die 3 score
             spaces.Discrete(6),  # die 4 score
             spaces.Discrete(6),  # die 5 score
-            spaces.Box(low=-1, high=5, shape=(1,), dtype=np.uint8),  # aces
-            spaces.Box(low=-1, high=10, shape=(1,), dtype=np.uint8),  # twos
-            spaces.Box(low=-1, high=15, shape=(1,), dtype=np.uint8),  # threes
-            spaces.Box(low=-1, high=20, shape=(1,), dtype=np.uint8),  # fours
-            spaces.Box(low=-1, high=25, shape=(1,), dtype=np.uint8),  # fives
-            spaces.Box(low=-1, high=30, shape=(1,), dtype=np.uint8),  # sixes
-            spaces.Box(low=-1, high=30, shape=(1,), dtype=np.uint8),  # three of a kind
-            spaces.Box(low=-1, high=30, shape=(1,), dtype=np.uint8),  # four of a kind
-            spaces.Box(low=-1, high=25, shape=(1,), dtype=np.uint8),  # full house
-            spaces.Box(low=-1, high=30, shape=(1,), dtype=np.uint8),  # small straight
-            spaces.Box(low=-1, high=40, shape=(1,), dtype=np.uint8),  # large straight
-            spaces.Box(low=-1, high=30, shape=(1,), dtype=np.uint8),  # chance
-            spaces.Box(low=-1, high=50, shape=(1,), dtype=np.uint8),  # yahtzee
-            spaces.Box(low=-1, high=35, shape=(1,), dtype=np.uint8),  # upper bonus
-            spaces.Box(low=-1, high=1200, shape=(1,), dtype=np.uint8),  # yahtzee bonus
+            spaces.Box(low=-1, high=5, shape=(1,), dtype=np.int16),  # aces
+            spaces.Box(low=-1, high=10, shape=(1,), dtype=np.int16),  # twos
+            spaces.Box(low=-1, high=15, shape=(1,), dtype=np.int16),  # threes
+            spaces.Box(low=-1, high=20, shape=(1,), dtype=np.int16),  # fours
+            spaces.Box(low=-1, high=25, shape=(1,), dtype=np.int16),  # fives
+            spaces.Box(low=-1, high=30, shape=(1,), dtype=np.int16),  # sixes
+            spaces.Box(low=-1, high=30, shape=(1,), dtype=np.int16),  # three of a kind
+            spaces.Box(low=-1, high=30, shape=(1,), dtype=np.int16),  # four of a kind
+            spaces.Box(low=-1, high=25, shape=(1,), dtype=np.int16),  # full house
+            spaces.Box(low=-1, high=30, shape=(1,), dtype=np.int16),  # small straight
+            spaces.Box(low=-1, high=40, shape=(1,), dtype=np.int16),  # large straight
+            spaces.Box(low=-1, high=30, shape=(1,), dtype=np.int16),  # chance
+            spaces.Box(low=-1, high=50, shape=(1,), dtype=np.int16),  # yahtzee
+            spaces.Box(low=-1, high=35, shape=(1,), dtype=np.int16),  # upper bonus
+            spaces.Box(low=-1, high=1200, shape=(1,), dtype=np.int16),  # yahtzee bonus
         ))
 
     def get_observation_space(self):
