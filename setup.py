@@ -3,7 +3,7 @@ from setuptools import find_packages, setup
 
 setup(
     name='gym_yahtzee',
-    version='0.9.5',
+    version='0.9.6',
     description='Yahtzee game engine for OpenAI Gym',
     author='Ville Brofeldt',
     author_email='ville.brofeldt@iki.fi',
