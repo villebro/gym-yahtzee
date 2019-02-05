@@ -1,7 +1,8 @@
+from collections import defaultdict
 from enum import Enum
 import logging
 import sys
-from typing import Optional
+from typing import Dict, Optional, Sequence
 
 from gym import Env, spaces
 
@@ -23,6 +24,13 @@ def get_score(score: Optional[int]) -> int:
     return score if score is not None else -1
 
 
+def get_dice_face_counts(dice: Sequence[int]) -> Dict[int, int]:
+    faces: Dict[int, int] = defaultdict(int)
+    for die in dice:
+        faces[die] += 1
+    return faces
+
+
 class YahtzeeSingleEnv(Env):
     metadata = {'render.modes': ['human']}
 
@@ -37,11 +45,12 @@ class YahtzeeSingleEnv(Env):
         self.observation_space = spaces.Tuple((
             spaces.Discrete(13),  # round
             spaces.Discrete(4),  # sub-round
-            spaces.Discrete(6),  # die 1 score
-            spaces.Discrete(6),  # die 2 score
-            spaces.Discrete(6),  # die 3 score
-            spaces.Discrete(6),  # die 4 score
-            spaces.Discrete(6),  # die 5 score
+            spaces.Box(low=0, high=5, shape=(1,), dtype=np.uint8),  # face 1 count
+            spaces.Box(low=0, high=5, shape=(1,), dtype=np.uint8),  # face 2 count
+            spaces.Box(low=0, high=5, shape=(1,), dtype=np.uint8),  # face 3 count
+            spaces.Box(low=0, high=5, shape=(1,), dtype=np.uint8),  # face 4 count
+            spaces.Box(low=0, high=5, shape=(1,), dtype=np.uint8),  # face 5 count
+            spaces.Box(low=0, high=5, shape=(1,), dtype=np.uint8),  # face 6 count
             spaces.Box(low=-1, high=5, shape=(1,), dtype=np.int16),  # aces
             spaces.Box(low=-1, high=10, shape=(1,), dtype=np.int16),  # twos
             spaces.Box(low=-1, high=15, shape=(1,), dtype=np.int16),  # threes
@@ -61,14 +70,16 @@ class YahtzeeSingleEnv(Env):
 
     def get_observation_space(self):
         pyhtzee = self.pyhtzee
+        faces = get_dice_face_counts(pyhtzee.dice)
         return (
             pyhtzee.round,
             pyhtzee.sub_round,
-            pyhtzee.dice[0],
-            pyhtzee.dice[1],
-            pyhtzee.dice[2],
-            pyhtzee.dice[3],
-            pyhtzee.dice[4],
+            faces[1],
+            faces[2],
+            faces[3],
+            faces[4],
+            faces[5],
+            faces[6],
             get_score(pyhtzee.scores.get(Category.ACES)),
             get_score(pyhtzee.scores.get(Category.TWOS)),
             get_score(pyhtzee.scores.get(Category.THREES)),
