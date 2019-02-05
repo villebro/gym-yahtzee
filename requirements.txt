@@ -10,7 +10,7 @@ click==7.0                # via pip-tools
 codecov==2.0.15
 coverage==4.5.2           # via codecov
 entrypoints==0.3          # via flake8
-flake8==3.7.4
+flake8==3.7.5
 future==0.17.1            # via pyglet
 gym==0.10.11
 idna==2.8                 # via requests
@@ -23,7 +23,7 @@ pip-tools==3.3.2
 pycodestyle==2.5.0        # via flake8
 pyflakes==2.1.0           # via flake8
 pyglet==1.3.2             # via gym
-pyhtzee==1.2.3
+pyhtzee==1.2.4
 requests==2.21.0          # via codecov, gym
 scipy==1.2.0              # via gym
 six==1.12.0               # via gym, pip-tools
