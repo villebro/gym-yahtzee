@@ -45,6 +45,11 @@ class YahtzeeSingleEnv(Env):
         self.observation_space = spaces.Tuple((
             spaces.Discrete(13),  # round
             spaces.Discrete(4),  # sub-round
+            spaces.Box(low=1, high=6, shape=(1,), dtype=np.uint8),  # die 1
+            spaces.Box(low=1, high=6, shape=(1,), dtype=np.uint8),  # die 2
+            spaces.Box(low=1, high=6, shape=(1,), dtype=np.uint8),  # die 3
+            spaces.Box(low=1, high=6, shape=(1,), dtype=np.uint8),  # die 4
+            spaces.Box(low=1, high=6, shape=(1,), dtype=np.uint8),  # die 5
             spaces.Box(low=0, high=5, shape=(1,), dtype=np.uint8),  # face 1 count
             spaces.Box(low=0, high=5, shape=(1,), dtype=np.uint8),  # face 2 count
             spaces.Box(low=0, high=5, shape=(1,), dtype=np.uint8),  # face 3 count
@@ -74,6 +79,11 @@ class YahtzeeSingleEnv(Env):
         return (
             pyhtzee.round,
             pyhtzee.sub_round,
+            pyhtzee.dice[0],
+            pyhtzee.dice[1],
+            pyhtzee.dice[2],
+            pyhtzee.dice[3],
+            pyhtzee.dice[4],
             faces[1],
             faces[2],
             faces[3],
