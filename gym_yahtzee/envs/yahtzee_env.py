@@ -50,12 +50,6 @@ class YahtzeeSingleEnv(Env):
             spaces.Box(low=1, high=6, shape=(1,), dtype=np.uint8),  # die 3
             spaces.Box(low=1, high=6, shape=(1,), dtype=np.uint8),  # die 4
             spaces.Box(low=1, high=6, shape=(1,), dtype=np.uint8),  # die 5
-            spaces.Box(low=0, high=5, shape=(1,), dtype=np.uint8),  # face 1 count
-            spaces.Box(low=0, high=5, shape=(1,), dtype=np.uint8),  # face 2 count
-            spaces.Box(low=0, high=5, shape=(1,), dtype=np.uint8),  # face 3 count
-            spaces.Box(low=0, high=5, shape=(1,), dtype=np.uint8),  # face 4 count
-            spaces.Box(low=0, high=5, shape=(1,), dtype=np.uint8),  # face 5 count
-            spaces.Box(low=0, high=5, shape=(1,), dtype=np.uint8),  # face 6 count
             spaces.Box(low=-1, high=5, shape=(1,), dtype=np.int16),  # aces
             spaces.Box(low=-1, high=10, shape=(1,), dtype=np.int16),  # twos
             spaces.Box(low=-1, high=15, shape=(1,), dtype=np.int16),  # threes
@@ -84,12 +78,6 @@ class YahtzeeSingleEnv(Env):
             pyhtzee.dice[2],
             pyhtzee.dice[3],
             pyhtzee.dice[4],
-            faces[1],
-            faces[2],
-            faces[3],
-            faces[4],
-            faces[5],
-            faces[6],
             get_score(pyhtzee.scores.get(Category.ACES)),
             get_score(pyhtzee.scores.get(Category.TWOS)),
             get_score(pyhtzee.scores.get(Category.THREES)),
@@ -117,18 +105,22 @@ class YahtzeeSingleEnv(Env):
         try:
             reward = pyhtzee.take_action(action)
             finished = pyhtzee.is_finished()
+            valid_move = True
         except PyhtzeeException:
+            valid_move = False
+            reward = 0
             if self.game_type == GameType.SUDDEN_DEATH:
                 log.info('Invalid action, terminating round.')
-                reward = -pyhtzee.get_total_score()
                 finished = True
             else:  # retry on wrong action
                 log.info('Invalid action, step ignored.')
-                reward = 0
                 finished = False
 
         log.info(f'Finished step. Reward: {reward}, Finished: {finished}')
-        return self.get_observation_space(), reward, finished, {}
+        debug_info = {
+            'valid_move': valid_move,
+        }
+        return self.get_observation_space(), reward, finished, debug_info
 
     def reset(self):
         self.pyhtzee = Pyhtzee()
