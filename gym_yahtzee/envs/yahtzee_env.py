@@ -69,7 +69,6 @@ class YahtzeeSingleEnv(Env):
 
     def get_observation_space(self):
         pyhtzee = self.pyhtzee
-        faces = get_dice_face_counts(pyhtzee.dice)
         return (
             pyhtzee.round,
             pyhtzee.sub_round,
