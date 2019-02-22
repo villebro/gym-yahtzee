@@ -16,7 +16,7 @@ class YahtzeeSingleEnvTestCase(TestCase):
         self.assertEqual(observation[0], 1)
         self.assertEqual(observation[1], 0)
         observation, reward, done, _ = env.step(action)
-        self.assertEqual(reward, -2)
+        self.assertEqual(reward, 0)
         self.assertTrue(done)
 
     def test_retry_on_wrong_action(self):
